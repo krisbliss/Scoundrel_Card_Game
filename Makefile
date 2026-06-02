@@ -1,13 +1,13 @@
 test:
-	clang++ -Wall -g ./Game/main.cpp ./Game/Card/card.cpp ./Game/Deck/deck.cpp ./Game/Room/room.cpp -o test
+	g++ -Wall -g ./Game/main.cpp ./Game/Card/card.cpp ./Game/Deck/deck.cpp ./Game/Room/room.cpp ./Game/Player/player.cpp -o test
 
 build:
-	clang++ -Wall ./Game/main.cpp -c
-	clang++ -Wall ./Game/Card/card.cpp -c
-	clang++ -Wall ./Game/Deck/deck.cpp -c
-	clang++ -Wall ./Game/Player/player.cpp -c
-	clang++ -Wall ./Game/Room/room.cpp -c
-	clang++ -g main.o deck.o room.o card.o player.o -o scoundrel
+	g++ -Wall ./Game/main.cpp -c
+	g++ -Wall ./Game/Card/card.cpp -c
+	g++ -Wall ./Game/Deck/deck.cpp -c
+	g++ -Wall ./Game/Player/player.cpp -c
+	g++ -Wall ./Game/Room/room.cpp -c
+	g++ -g main.o deck.o room.o card.o player.o -o scoundrel
 	rm main.o deck.o room.o card.o player.o
 
 clean:

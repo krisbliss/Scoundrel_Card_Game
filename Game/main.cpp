@@ -4,6 +4,7 @@
 #include "./Deck/deck.h"
 #include "./Room/room.h"
 #include "./Card/card.h"
+#include "./Player/player.h"
 
 int main(int argc, char *argv[]){
 

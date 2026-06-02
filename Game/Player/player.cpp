@@ -5,27 +5,23 @@
 Player::Player() : hp(20), atk(0){}
 
 // Subtract_ATK after attacking (aka selects) Spade or Club card
-void Player::Subtract_ATK(int value){
+void Player::Subtract_ATK(int damage){
   int compare = atk;
-  while(atk > 0 && value > 0){
-    atk --;
-    value --;
-  }
+  int new_damage = (damage - atk) > 0 ? damage - atk : 0;
+  atk = (atk - damage) > 0 ? atk - damage : 0;
+
   printf("Player's ATK - %d\n", compare - atk);
   
   //player looses all atk power and remining value > 0, then call Subtract_HP(ramining_value)
-  if (atk == 0 && value > 0){
-      Subtract_HP(value);
+  if (atk == 0 && new_damage > 0){
+      Subtract_HP(new_damage);
   }
 }
 
 // Subtract_HP ONLY inside of Subtract_ATK WHEN player atk == 0 
-void Player::Subtract_HP(int value){
+void Player::Subtract_HP(int damage){
   int compare = hp;
-  while(hp > 0 && value > 0){
-    hp --;
-    value --;
-  }
+    hp = (hp - damage) > 0 ? hp - damage : 0;
   printf("Player's HP - %d\n", compare - hp);
 }
 
