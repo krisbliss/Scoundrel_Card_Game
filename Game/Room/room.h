@@ -3,6 +3,8 @@
 #include "../Card/card.h"
 #include "../Player/player.h"
 
+#define MAX_CARDS_ON_FIELD  4
+
 /***************************************************************************************************************************************************
  * Room to hold Player() and Deck() objects. Will facilitate player actions, taking cards of top of deck, and place cards back into deck.
  *  1) take in pointers for Deck() and Player() objects + 1 card 
@@ -15,7 +17,7 @@
 class Room{
   private:
     int roomNum;
-    Card* fieldCards[4];
+    Card* fieldCards[MAX_CARDS_ON_FIELD];
     Player *player; // Passing in player from main.cpp (To delete this object before deconstructor, set p = nullptr first)
 
   public:

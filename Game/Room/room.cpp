@@ -5,7 +5,6 @@
 #include "room.h"
 #include "../Card/card.h"
 
-const int MAX_CARDS_ON_FIELD = 4;
 
 Room::Room(int value, Card *lastCard, Player *p): roomNum(value), player(p){
   // insert last remaining card passed in from previous room into first element of fieldCards[]
@@ -56,18 +55,29 @@ void Room::Select_Card_Loop(int comp){  // loop to allow player to select card
     printf("\nSelect a card from the field\n");
     Print_fieldCards();
     
-    // allow user to read and input a choice that is user readable 
-    std::cin >> choice;
-    choice = choice - 1 ; //i.e. 1) --> i = 0
+    // Only allow numerical number inputs
+    if(std::cin >> choice){
+      choice --; // convert to 0 index
 
-    if(choice >= 0 && choice < MAX_CARDS_ON_FIELD && fieldCards[choice] != nullptr){
-      player->ProcessCard(fieldCards[choice]);
+      // if input == valid index then process the card the user selected
+      if(0 <= choice && choice < MAX_CARDS_ON_FIELD && fieldCards[choice] != nullptr){
+        player->ProcessCard(fieldCards[choice]);
       
-      // free the card from memory
-      fieldCards[choice] = nullptr;
+        // free the card from memory
+        fieldCards[choice] = nullptr;
+      }
+      else{
+        printf("Error, that option is not allowed");
+        std::cin.clear(); // Clear the error flags
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard bad characters
+      }
     }
+
+    // message for non-numerical inputs from user
     else{
-      printf("Error, that option is not allowed");
+      printf("Error, you must enter a number");
+      std::cin.clear(); // Clear the error flags
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard bad characters
     }
   }
   printf("\nLAST CARD entering new room!\n");
@@ -75,7 +85,7 @@ void Room::Select_Card_Loop(int comp){  // loop to allow player to select card
 
 // print out cards to graphicly respresent fieldCards[i] to user
 void Room::Print_fieldCards(){
-  for (int i=0; i<4; i++){
+  for (int i=0; i<MAX_CARDS_ON_FIELD; i++){
     if(fieldCards[i] != nullptr){
       switch (fieldCards[i]->getValue()){
         

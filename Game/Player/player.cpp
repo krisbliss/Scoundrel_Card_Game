@@ -27,12 +27,9 @@ void Player::Subtract_HP(int damage){
 
 // Add_HP when player p
 void Player::Add_HP(int value){
-  int compare = value;
-  while(hp < 20 && value > 0){
-    hp ++;
-    value --;
-  }
-  printf("Player's HP + %d\n", compare - value);
+  int compare = hp;
+  hp = (hp + value) < 20 ? hp + value : 20;
+  printf("Player's HP + %d\n", hp - compare);
 }
 
 // Add_ATK when player selects a Diamond card

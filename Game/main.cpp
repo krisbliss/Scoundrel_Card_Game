@@ -3,8 +3,7 @@
 #include <iostream>
 #include "./Deck/deck.h"
 #include "./Room/room.h"
-#include "./Card/card.h"
-#include "./Player/player.h"
+//#include "./Card/card.h"
 
 int main(int argc, char *argv[]){
 
@@ -45,7 +44,7 @@ int main(int argc, char *argv[]){
     Room r(++roomNum,lastCard,&p);
     
     // populate fieldCards
-    r.Deal(d.GetTopCards(3),3);
+    r.Deal(d.GetTopCards(MAX_CARDS_ON_FIELD-1),MAX_CARDS_ON_FIELD);
 
     // player driver
     r.Select_Card_Loop(1);
