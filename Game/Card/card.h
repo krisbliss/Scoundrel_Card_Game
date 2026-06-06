@@ -1,6 +1,7 @@
 #ifndef CARD_H
 #define CARD_H
 #include <string>
+#include <vector>
 
 /***************************************************************************************************************************************************
  * Card declerations
@@ -14,10 +15,12 @@ class Card{
     std::string face;
 
   public:
+    std::vector<std::vector<char>> ascii_vec;
     Card(int value, std::string suite);
     int getValue();
     std::string getSuite();
     std::string getFace();
+    std::vector<std::vector<char>> getAscii();
 };
 
 /***************************************************************************************************************************************************

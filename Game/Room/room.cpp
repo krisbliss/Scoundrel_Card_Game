@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
+#include <vector>
+#include <queue>
+#include <algorithm>
 #include "room.h"
 #include "../Card/card.h"
 
@@ -110,7 +113,35 @@ void Room::Print_fieldCards(){
       }
     } 
   }
-  printf("\n");
+  printf("\n\n");
+  
+
+// new implemntation to be used for clickable cards in the future
+  std::vector<int> card_idx;
+  card_idx.reserve(MAX_CARDS_ON_FIELD);
+  for (int i=0; i < MAX_CARDS_ON_FIELD; i++){
+    if(fieldCards[i] != nullptr){
+      card_idx.push_back(i);
+    }
+  }
+
+
+    for(int j = 0; j < fieldCards[card_idx[0]]->ascii_vec.size(); j++){
+      for(int i : card_idx){
+        if(fieldCards[i] != nullptr){
+          for(int k=0; k < fieldCards[i]->ascii_vec[0].size(); k++){
+            printf("%c",fieldCards[i]->ascii_vec[j][k]);
+          }
+
+          printf("   ");
+        }
+      }
+      printf("\n");
+    }
+  
+
+
+  printf("\n\n\n");
 }
 
 // ONLY call this function AFTER Select_Card_Loop() has finished running

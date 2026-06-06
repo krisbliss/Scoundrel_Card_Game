@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <unordered_map>
 #include "card.h"
-
+#include "./ASCII/card_faces_ascii.h"
 /*********************************************************************
  *  Definition of Card classes and functions
 *********************************************************************/
@@ -10,21 +11,93 @@
  /*** Base class constructor and other functions ***/
 Card::Card(int value, std::string suite) : value(value), suite(suite){
   // Constructor switch case to determine if current card object needs to have non-null face str value
+
+  ascii_vec = ASCII_Template;
+  char top_and_bot = '*';
+  char suite_val = '*';
+  
+  static const std::unordered_map<std::string,e_SUITE> suiteMap = {
+    {"hearts",e_SUITE::hearts},
+    {"spades",e_SUITE::spades},
+    {"diamonds",e_SUITE::diamonds},
+    {"clubs",e_SUITE::clubs}
+  };
+
+  static const std::unordered_map<int,char> numMap = {
+    {2,'2'},
+    {3,'3'},
+    {4,'4'},
+    {5,'5'},
+    {6,'6'},
+    {7,'7'},
+    {8,'8'},
+    {9,'9'}
+  };
+
+  e_SUITE current_suite;
+  auto it = suiteMap.find(suite);
+  if(it != suiteMap.end()){
+    current_suite = it->second;
+  }
+
+  switch(current_suite){
+    case e_SUITE::hearts:
+      suite_val = 'H';
+      break;
+    case e_SUITE::spades:
+      suite_val = 'S';
+      break;
+    case e_SUITE::diamonds:
+      suite_val = 'D';
+      break;
+    case e_SUITE::clubs:
+      suite_val = 'C';
+      break;
+    default:
+      break;
+  }
+  ascii_vec[SUITE_PLACEMENT.first][SUITE_PLACEMENT.second] = suite_val;
+
   switch(value){
+    case 10:
+      top_and_bot = '1';
+      ascii_vec[TOP_NUM.first][TOP_NUM.second+1] = '0';
+      ascii_vec[BOT_NUM.first][BOT_NUM.second] = '0';
+      break;
     case 11:
+      top_and_bot = 'J';
       face = "jack";
       break;
     case 12:
+      top_and_bot = 'Q';
       face = "queen";
       break;
     case 13:
+      top_and_bot = 'K';
       face = "king";
       break;
     case 14:
+      top_and_bot = 'A';
       face = "ace";
       break;
     default: // default value of face will be null-str if value < 11
+      auto it = numMap.find(value);
+      if(it != numMap.end()){
+        top_and_bot = it->second;
+      }
       face = "\0"; 
+      break;
+  }
+
+  // for all cases
+  ascii_vec[TOP_NUM.first][TOP_NUM.second] = top_and_bot;
+
+  // edge case
+  if(value == 10){
+    ascii_vec[BOT_NUM.first][BOT_NUM.second-1] = top_and_bot;
+  }
+  else{
+    ascii_vec[BOT_NUM.first][BOT_NUM.second] = top_and_bot;
   }
 }
 
@@ -40,6 +113,9 @@ std::string Card::getFace(){
   return face; 
 }
 
+std::vector<std::vector<char>> Card::getAscii(){
+  return ascii_vec;
+}
 /*******************************************************************************
 * Sub Class  constructors 
   * NOTE: MUST call the Base class' constructor inorder to compile (beacuse there is no paramterless constructor and a the Base class constructor MUST run before the Sub class constructor) 
@@ -112,4 +188,3 @@ int Diamonds::Player_ATK_Plus(){
 int Hearts::Player_HP_Plus(){
   return (value);
 }
-
